@@ -1,0 +1,11 @@
+# editor backup files
+*~
+.\#*
+\#*\#
+.\#*\#
+
+# generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
