@@ -1,0 +1,15 @@
+[submodule "opm-core"]
+	path = opm-core
+	url = http://github.com/OPM/opm-core
+[submodule "dune-cornerpoint"]
+	path = dune-cornerpoint
+	url = http://github.com/OPM/dune-cornerpoint
+[submodule "opm-porsol"]
+	path = opm-porsol
+	url = http://github.com/OPM/opm-porsol
+[submodule "opm-upscaling"]
+	path = opm-upscaling
+	url = http://github.com/OPM/opm-upscaling
+[submodule "opm-polymer"]
+	path = opm-polymer
+	url = http://github.com/OPM/opm-polymer
