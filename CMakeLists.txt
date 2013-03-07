@@ -46,10 +46,14 @@ endforeach (proj)
 get_cmake_property(cache CACHE_VARIABLES)
 
 # variables that are local to this parent project and that should
-# not be propagated
+# not be propagated. also remove variables that are never used
+# in any sub-project
 set (local_vars
   CMAKE_PROJECT_NAME
   CMAKE_HOME_DIRECTORY
+  ${PROJECT_NAME}_SOURCE_DIR
+  ${PROJECT_NAME}_BINARY_DIR
+  CMAKE_CPACK_COMMAND
   )
 list (REMOVE_ITEM cache ${local_vars})
 
