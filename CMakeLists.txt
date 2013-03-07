@@ -66,3 +66,36 @@ set (vars)
 foreach (var IN LISTS cache)
   list (APPEND vars "-D${var}=${${var}}")
 endforeach (var)
+
+# setup external projects with sub-dir. as name
+foreach (proj IN LISTS PROJECTS)
+  # all projects need the "global" options
+  set (${proj}_ARGS ${vars})
+
+  # add directory information on the command-line too, so that the
+  # sub-projects can use config-mode to get eachother instead of probing
+  foreach (dep IN LISTS ${proj}_DEPS)
+	list (APPEND ${proj}_ARGS "-D${dep}_DIR=${${dep}_DIR}")
+  endforeach (dep)
+
+  # use blank install command so they don't get installed automatically
+  # don't specify dependencies yet, since all projects haven't been
+  # defined necessarily
+  externalproject_add (${proj}
+	PREFIX ${proj}
+	SOURCE_DIR ${${proj}_SOURCE_DIR}
+	BINARY_DIR ${${proj}_DIR}
+	STAMP_DIR ${${proj}_DIR}
+	TMP_DIR ${${proj}_DIR}
+	CMAKE_ARGS ${${proj}_ARGS}
+	INSTALL_COMMAND ""
+#	DEPENDS ${${proj}_DEPS}
+	)
+endforeach (proj)
+
+# add dependencies later when we have all the projects
+foreach (proj IN LISTS PROJECTS)
+  if (${proj}_DEPS)
+	add_dependencies (${proj} ${${proj}_DEPS})
+  endif (${proj}_DEPS)
+endforeach (proj)
