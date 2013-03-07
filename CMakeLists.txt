@@ -39,3 +39,26 @@ foreach (proj IN LISTS PROJECTS)
 	list (REMOVE_ITEM ${proj}_DEPS ${${proj}_EXT_DEPS})
   endif (${proj}_EXT_DEPS)
 endforeach (proj)
+
+# get the variable that were specified on a command-line to us
+# they are stored in the cache and recreated on the next
+# invocation, even if they are not specified then!
+get_cmake_property(cache CACHE_VARIABLES)
+
+# variables that are local to this parent project and that should
+# not be propagated
+set (local_vars
+  CMAKE_PROJECT_NAME
+  CMAKE_HOME_DIRECTORY
+  )
+list (REMOVE_ITEM cache ${local_vars})
+
+# recreate a command-line to set this cache in sub-projects;
+# the alternative would be to specify a script that loaded our
+# cache as the pre-load script for each project, but that would
+# only work if we are building from scratch. specifying them
+# manually enables us to reconfigure later.
+set (vars)
+foreach (var IN LISTS cache)
+  list (APPEND vars "-D${var}=${${var}}")
+endforeach (var)
